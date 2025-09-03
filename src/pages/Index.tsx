@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Icon from '@/components/ui/icon';
 
 interface Product {
@@ -88,6 +89,8 @@ const Index = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [quantities, setQuantities] = useState<{[key: number]: number}>({});
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [notification, setNotification] = useState<{message: string, type: 'success' | 'info'} | null>(null);
+  const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
   const addToCart = (product: Product) => {
     const quantity = quantities[product.id] || 1;
@@ -104,6 +107,7 @@ const Index = () => {
     }
     
     setQuantities({ ...quantities, [product.id]: 1 });
+    showNotification(`${product.name} добавлен в корзину (${quantity} шт.)`, 'success');
   };
 
   const updateQuantity = (productId: number, newQuantity: number) => {
@@ -111,7 +115,11 @@ const Index = () => {
   };
 
   const removeFromCart = (productId: number) => {
+    const item = cart.find(item => item.id === productId);
     setCart(cart.filter(item => item.id !== productId));
+    if (item) {
+      showNotification(`${item.name} удален из корзины`, 'info');
+    }
   };
 
   const getTotalPrice = () => {
@@ -122,13 +130,56 @@ const Index = () => {
     return cart.reduce((total, item) => total + item.quantity, 0);
   };
 
+  const showNotification = (message: string, type: 'success' | 'info') => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 2000);
+  };
+
+  const getFilteredProducts = () => {
+    if (categoryFilter === 'all') return products;
+    return products.filter(product => product.category === categoryFilter);
+  };
+
+  const getUniqueCategories = () => {
+    const categories = products.map(product => product.category);
+    return [...new Set(categories)];
+  };
+
+  const calculateDiscount = () => {
+    const totalItems = getTotalItems();
+    const totalPrice = getTotalPrice();
+    let discount = 0;
+    let discountText = '';
+    
+    // Скидка 10% при покупке более 10 штук
+    if (totalItems > 10) {
+      discount = totalPrice * 0.1;
+      discountText = '10% скидка за количество';
+    }
+    
+    return { discount, discountText };
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-orange-50" style={{ fontFamily: 'Open Sans, sans-serif' }}>
+      {/* Notification */}
+      {notification && (
+        <div className="fixed top-20 right-4 z-50 animate-in slide-in-from-right duration-300">
+          <div className={`p-4 rounded-lg shadow-lg ${
+            notification.type === 'success' ? 'bg-green-500 text-white' : 'bg-blue-500 text-white'
+          }`}>
+            <div className="flex items-center space-x-2">
+              <Icon name={notification.type === 'success' ? 'Check' : 'Info'} size={20} />
+              <span>{notification.message}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
-      <header className="bg-white shadow-lg sticky top-0 z-50">
+      <header className="bg-white shadow-lg sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            {/* Logo */}
             <div className="flex items-center space-x-2">
               <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
                 <Icon name="TreePine" size={24} className="text-white" />
@@ -138,17 +189,13 @@ const Index = () => {
               </h1>
             </div>
 
-            {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-8">
-              <a href="#" className="text-gray-700 hover:text-primary transition-colors font-medium">Главная</a>
               <a href="#catalog" className="text-gray-700 hover:text-primary transition-colors font-medium">Каталог</a>
-              <a href="#about" className="text-gray-700 hover:text-primary transition-colors font-medium">О нас</a>
               <a href="#contact" className="text-gray-700 hover:text-primary transition-colors font-medium">Контакты</a>
               <a href="#promotions" className="text-gray-700 hover:text-primary transition-colors font-medium">Акции</a>
             </nav>
 
             <div className="flex items-center space-x-4">
-              {/* Cart */}
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="outline" size="icon" className="relative">
@@ -164,7 +211,7 @@ const Index = () => {
                   <SheetHeader>
                     <SheetTitle>Корзина</SheetTitle>
                     <SheetDescription>
-                      {cart.length === 0 ? "Корзина пуста" : `${getTotalItems()} товаров на сумму ${getTotalPrice()} ₽`}
+                      {cart.length === 0 ? "Корзина пуста" : `${getTotalItems()} товаров`}
                     </SheetDescription>
                   </SheetHeader>
                   <div className="mt-8 space-y-4">
@@ -190,19 +237,41 @@ const Index = () => {
                     ))}
                     {cart.length > 0 && (
                       <div className="pt-4 border-t">
-                        <div className="flex justify-between items-center mb-4">
-                          <span className="font-semibold">Итого: {getTotalPrice()} ₽</span>
-                        </div>
-                        <Button className="w-full" size="lg">
-                          Оформить заказ
-                        </Button>
+                        {(() => {
+                          const { discount, discountText } = calculateDiscount();
+                          const totalPrice = getTotalPrice();
+                          const finalPrice = totalPrice - discount;
+                          
+                          return (
+                            <>
+                              <div className="space-y-2">
+                                <div className="flex justify-between text-sm">
+                                  <span>Сумма товаров:</span>
+                                  <span>{totalPrice} ₽</span>
+                                </div>
+                                {discount > 0 && (
+                                  <div className="flex justify-between text-sm text-green-600">
+                                    <span>{discountText}:</span>
+                                    <span>-{discount.toFixed(0)} ₽</span>
+                                  </div>
+                                )}
+                                <div className="flex justify-between items-center font-semibold text-lg">
+                                  <span>Итого:</span>
+                                  <span>{finalPrice} ₽</span>
+                                </div>
+                              </div>
+                              <Button className="w-full mt-4" size="lg">
+                                Оформить заказ
+                              </Button>
+                            </>
+                          );
+                        })()}
                       </div>
                     )}
                   </div>
                 </SheetContent>
               </Sheet>
 
-              {/* Mobile Menu Button */}
               <Button
                 variant="ghost"
                 size="icon"
@@ -214,13 +283,10 @@ const Index = () => {
             </div>
           </div>
 
-          {/* Mobile Navigation */}
           {isMenuOpen && (
             <nav className="md:hidden mt-4 pt-4 border-t">
               <div className="flex flex-col space-y-2">
-                <a href="#" className="text-gray-700 hover:text-primary transition-colors font-medium py-2" onClick={() => setIsMenuOpen(false)}>Главная</a>
                 <a href="#catalog" className="text-gray-700 hover:text-primary transition-colors font-medium py-2" onClick={() => setIsMenuOpen(false)}>Каталог</a>
-                <a href="#about" className="text-gray-700 hover:text-primary transition-colors font-medium py-2" onClick={() => setIsMenuOpen(false)}>О нас</a>
                 <a href="#contact" className="text-gray-700 hover:text-primary transition-colors font-medium py-2" onClick={() => setIsMenuOpen(false)}>Контакты</a>
                 <a href="#promotions" className="text-gray-700 hover:text-primary transition-colors font-medium py-2" onClick={() => setIsMenuOpen(false)}>Акции</a>
               </div>
@@ -236,10 +302,9 @@ const Index = () => {
             Лучшие веники для бани
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Натуральные веники высшего качества для незабываемых банных процедур. 
-            Собраны в экологически чистых районах с соблюдением всех традиций.
+            Натуральные веники высшего качества для незабываемых банных процедур
           </p>
-          <Button size="lg" className="text-lg px-8 py-6">
+          <Button size="lg" className="text-lg px-8 py-6" onClick={() => document.getElementById('catalog')?.scrollIntoView({behavior: 'smooth'})}>
             Смотреть каталог
             <Icon name="ArrowDown" size={20} className="ml-2" />
           </Button>
@@ -249,12 +314,27 @@ const Index = () => {
       {/* Catalog Section */}
       <section id="catalog" className="py-16 px-4">
         <div className="container mx-auto">
-          <h2 className="text-4xl font-bold text-center text-gray-800 mb-12" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+          <h2 className="text-4xl font-bold text-center text-gray-800 mb-8" style={{ fontFamily: 'Montserrat, sans-serif' }}>
             Каталог веников
           </h2>
           
+          {/* Filters */}
+          <div className="flex justify-center mb-8">
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <SelectTrigger className="w-[200px]">
+                <SelectValue placeholder="Выберите категорию" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Все категории</SelectItem>
+                {getUniqueCategories().map((category) => (
+                  <SelectItem key={category} value={category}>{category}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map((product) => (
+            {getFilteredProducts().map((product) => (
               <Card key={product.id} className="group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
                 <CardHeader className="relative overflow-hidden">
                   <div className="aspect-square overflow-hidden rounded-t-lg">
@@ -350,104 +430,133 @@ const Index = () => {
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="py-16 px-4 bg-white">
+      {/* Contact Section */}
+      <section id="contact" className="py-16 px-4 bg-white">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <h2 className="text-4xl font-bold text-center text-gray-800 mb-12" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            Контакты
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
             <div>
-              <h2 className="text-4xl font-bold text-gray-800 mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                О нашей компании
-              </h2>
-              <p className="text-gray-600 mb-6 text-lg leading-relaxed">
-                Мы занимаемся заготовкой и продажей банных веников уже более 15 лет. 
-                Наши веники собираются исключительно в экологически чистых районах, 
-                с соблюдением всех традиций и в оптимальное время года.
-              </p>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center p-4 bg-green-50 rounded-lg">
-                  <h3 className="text-2xl font-bold text-primary">15+</h3>
-                  <p className="text-gray-600">лет опыта</p>
-                </div>
-                <div className="text-center p-4 bg-green-50 rounded-lg">
-                  <h3 className="text-2xl font-bold text-primary">5000+</h3>
-                  <p className="text-gray-600">довольных клиентов</p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-gradient-to-br from-primary/20 to-secondary/20 rounded-2xl p-8 h-96 flex items-center justify-center">
-              <Icon name="TreePine" size={120} className="text-primary" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white py-12 px-4">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                  <Icon name="TreePine" size={20} className="text-white" />
-                </div>
-                <h3 className="text-xl font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>Banhouse</h3>
-              </div>
-              <p className="text-gray-400">
-                Лучшие банные веники для вашего здоровья и удовольствия.
-              </p>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-4">Контакты</h4>
-              <div className="space-y-2 text-gray-400">
-                <div className="flex items-center space-x-2">
-                  <Icon name="Phone" size={16} />
+              <h3 className="text-2xl font-semibold mb-6">Свяжитесь с нами</h3>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <Icon name="Phone" size={20} className="text-primary" />
                   <span>+7 (900) 123-45-67</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Icon name="Mail" size={16} />
+                <div className="flex items-center space-x-3">
+                  <Icon name="Mail" size={20} className="text-primary" />
                   <span>info@banhouse.ru</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Icon name="MapPin" size={16} />
+                <div className="flex items-center space-x-3">
+                  <Icon name="MapPin" size={20} className="text-primary" />
                   <span>Москва, ул. Банная, 123</span>
                 </div>
               </div>
             </div>
             
             <div>
-              <h4 className="font-semibold mb-4">Социальные сети</h4>
-              <div className="flex space-x-4">
-                <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-                  <Icon name="MessageCircle" size={20} />
+              <h3 className="text-2xl font-semibold mb-6">Социальные сети</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <Button variant="outline" className="h-16 flex items-center space-x-3">
+                  <Icon name="MessageCircle" size={24} className="text-primary" />
+                  <span>Telegram</span>
                 </Button>
-                <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-                  <Icon name="Instagram" size={20} />
+                <Button variant="outline" className="h-16 flex items-center space-x-3">
+                  <Icon name="Instagram" size={24} className="text-primary" />
+                  <span>Instagram</span>
                 </Button>
-                <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-                  <Icon name="Facebook" size={20} />
+                <Button variant="outline" className="h-16 flex items-center space-x-3">
+                  <Icon name="MessageSquare" size={24} className="text-primary" />
+                  <span>WhatsApp</span>
                 </Button>
-              </div>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-4">Подписка на новости</h4>
-              <div className="flex space-x-2">
-                <input 
-                  type="email" 
-                  placeholder="Ваш email" 
-                  className="flex-1 px-3 py-2 bg-gray-700 rounded text-white placeholder-gray-400"
-                />
-                <Button size="sm">
-                  <Icon name="Send" size={16} />
+                <Button variant="outline" className="h-16 flex items-center space-x-3">
+                  <Icon name="Phone" size={24} className="text-primary" />
+                  <span>Звонок</span>
                 </Button>
               </div>
             </div>
           </div>
-          
-          <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Banhouse. Все права защищены.</p>
+        </div>
+      </section>
+
+      {/* Promotions Section */}
+      <section id="promotions" className="py-16 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-4xl font-bold text-center text-gray-800 mb-12" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            Акции и спецпредложения
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <Card className="border-2 border-accent bg-gradient-to-br from-accent/10 to-accent/5">
+              <CardHeader>
+                <div className="flex items-center space-x-3">
+                  <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center">
+                    <Icon name="Percent" size={32} className="text-white" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-2xl" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      Скидка новичкам
+                    </CardTitle>
+                    <p className="text-accent font-semibold">15% на первый заказ</p>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-4">
+                  Для новых клиентов действует скидка 15% на общую сумму первого заказа. 
+                  Промокод применяется автоматически при оформлении.
+                </p>
+                <div className="bg-white p-3 rounded-lg border border-accent/20">
+                  <p className="text-sm text-gray-500">Промокод:</p>
+                  <p className="font-bold text-accent">FIRST15</p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-2 border-secondary bg-gradient-to-br from-secondary/10 to-secondary/5">
+              <CardHeader>
+                <div className="flex items-center space-x-3">
+                  <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center">
+                    <Icon name="Package" size={32} className="text-white" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-2xl" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                      Оптовая скидка
+                    </CardTitle>
+                    <p className="text-secondary font-semibold">10% от 10 веников</p>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-4">
+                  При покупке 10 и более веников предоставляется скидка 10% на общую сумму заказа. 
+                  Скидка применяется автоматически в корзине.
+                </p>
+                <div className="bg-white p-3 rounded-lg border border-secondary/20">
+                  <p className="text-sm text-gray-500">Условие:</p>
+                  <p className="font-bold text-secondary">От 10 штук веников</p>
+                </div>
+              </CardContent>
+            </Card>
           </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 text-white py-8 px-4">
+        <div className="container mx-auto text-center">
+          <div className="flex items-center justify-center space-x-2 mb-4">
+            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+              <Icon name="TreePine" size={20} className="text-white" />
+            </div>
+            <h3 className="text-xl font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>Banhouse</h3>
+          </div>
+          <p className="text-gray-400 mb-4">
+            Лучшие банные веники для вашего здоровья и удовольствия
+          </p>
+          <p className="text-gray-400 text-sm">
+            &copy; 2024 Banhouse. Все права защищены.
+          </p>
         </div>
       </footer>
     </div>
