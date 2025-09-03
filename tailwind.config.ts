@@ -61,6 +61,13 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Bathhouse theme colors
+				nature: {
+					green: '#2D8A3E',
+					brown: '#8B4513',
+					'light-brown': '#D2B48C',
+					accent: '#FA365D'
 				}
 			},
 			borderRadius: {
