@@ -17,175 +17,89 @@ const Promotions = () => {
           Экономьте на покупке лучших банных веников! Выгодные предложения для новых и постоянных клиентов.
         </p>
         
-        {/* Main Promotions */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto mb-16">
-          <Card className="border-0 shadow-2xl bg-gradient-to-br from-accent/20 via-white to-accent/5 overflow-hidden relative">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full -mr-16 -mt-16"></div>
-            <CardHeader className="relative z-10">
-              <div className="flex items-start justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className="w-20 h-20 bg-gradient-to-r from-accent to-accent/80 rounded-2xl flex items-center justify-center shadow-lg">
-                    <Icon name="Percent" size={36} className="text-white" />
-                  </div>
-                  <div>
-                    <Badge className="bg-accent text-white mb-2 text-sm">Для новичков</Badge>
-                    <CardTitle className="text-3xl font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                      15% скидка
-                    </CardTitle>
-                    <p className="text-accent font-semibold text-lg">на первый заказ</p>
-                  </div>
+        {/* Main Promotions - Минималистичные карточки */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+          {/* Промокод для новых пользователей */}
+          <Card className="border-0 shadow-lg bg-white hover:shadow-xl transition-all duration-200 overflow-hidden">
+            <div className="h-48 bg-gradient-to-r from-blue-50 to-purple-50 flex items-center justify-center">
+              <img 
+                src="/img/b974aaa1-f7e8-4561-acc6-f336ca252c74.jpg" 
+                alt="Промокод для новых пользователей" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <CardContent className="p-6">
+              <div className="text-center space-y-4">
+                <Badge className="bg-blue-500 text-white text-sm">Для новых клиентов</Badge>
+                <h3 className="text-2xl font-bold text-gray-800">Промокод FIRST15</h3>
+                <p className="text-gray-600">15% скидка на первый заказ</p>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="font-mono text-lg font-bold text-blue-600">FIRST15</p>
                 </div>
+                <Button 
+                  className="w-full rounded-lg"
+                  onClick={() => navigate('/catalog')}
+                >
+                  Использовать промокод
+                </Button>
               </div>
-            </CardHeader>
-            <CardContent className="pt-0 space-y-6">
-              <p className="text-gray-700 text-lg leading-relaxed">
-                Добро пожаловать в мир качественных банных веников! Для новых клиентов 
-                действует специальная скидка 15% на общую сумму первого заказа.
-              </p>
-              
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <Icon name="Check" size={20} className="text-accent" />
-                  <span className="text-gray-600">Скидка применяется автоматически</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Icon name="Check" size={20} className="text-accent" />
-                  <span className="text-gray-600">Действует на все виды веников</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Icon name="Check" size={20} className="text-accent" />
-                  <span className="text-gray-600">Без минимальной суммы заказа</span>
-                </div>
-              </div>
-              
-              <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-accent/20 shadow-lg">
-                <div className="text-center">
-                  <p className="text-sm text-gray-500 mb-2">Промокод</p>
-                  <div className="bg-accent/10 px-6 py-3 rounded-full inline-block">
-                    <p className="font-bold text-accent text-2xl tracking-wider">FIRST15</p>
-                  </div>
-                </div>
-              </div>
-              
-              <Button 
-                className="w-full py-4 text-lg rounded-full bg-gradient-to-r from-accent to-accent/80 hover:from-accent/90 hover:to-accent/70 shadow-lg hover:shadow-xl transition-all duration-200"
-                onClick={() => navigate('/catalog')}
-              >
-                <Icon name="ShoppingBag" size={20} className="mr-2" />
-                Начать покупки
-              </Button>
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-2xl bg-gradient-to-br from-secondary/20 via-white to-secondary/5 overflow-hidden relative">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/10 rounded-full -mr-16 -mt-16"></div>
-            <CardHeader className="relative z-10">
-              <div className="flex items-start justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className="w-20 h-20 bg-gradient-to-r from-secondary to-secondary/80 rounded-2xl flex items-center justify-center shadow-lg">
-                    <Icon name="Package" size={36} className="text-white" />
-                  </div>
-                  <div>
-                    <Badge className="bg-secondary text-white mb-2 text-sm">Оптом выгоднее</Badge>
-                    <CardTitle className="text-3xl font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                      10% скидка
-                    </CardTitle>
-                    <p className="text-secondary font-semibold text-lg">от 10 веников</p>
-                  </div>
+          {/* Скидка 10% от 10 веников */}
+          <Card className="border-0 shadow-lg bg-white hover:shadow-xl transition-all duration-200 overflow-hidden">
+            <div className="h-48 bg-gradient-to-r from-green-50 to-yellow-50 flex items-center justify-center">
+              <img 
+                src="/img/66b141f6-9060-430a-9111-2a488c3a7739.jpg" 
+                alt="Скидка 10% от 10 веников" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <CardContent className="p-6">
+              <div className="text-center space-y-4">
+                <Badge className="bg-green-500 text-white text-sm">Оптовая скидка</Badge>
+                <h3 className="text-2xl font-bold text-gray-800">10% скидка</h3>
+                <p className="text-gray-600">При покупке от 10 веников</p>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500 mb-1">Автоматически применяется</p>
+                  <p className="font-bold text-green-600">При добавлении 10+ товаров</p>
                 </div>
+                <Button 
+                  variant="outline"
+                  className="w-full rounded-lg border-green-500 text-green-600 hover:bg-green-500 hover:text-white"
+                  onClick={() => navigate('/catalog')}
+                >
+                  В каталог
+                </Button>
               </div>
-            </CardHeader>
-            <CardContent className="pt-0 space-y-6">
-              <p className="text-gray-700 text-lg leading-relaxed">
-                Покупайте веники оптом и экономьте! При заказе 10 и более веников 
-                автоматически получаете скидку 10% на всю сумму заказа.
-              </p>
-              
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <Icon name="Check" size={20} className="text-secondary" />
-                  <span className="text-gray-600">Скидка начисляется автоматически</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Icon name="Check" size={20} className="text-secondary" />
-                  <span className="text-gray-600">Можно комбинировать разные виды</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Icon name="Check" size={20} className="text-secondary" />
-                  <span className="text-gray-600">Бесплатная доставка от 15 шт.</span>
-                </div>
-              </div>
-              
-              <div className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-secondary/20 shadow-lg">
-                <div className="grid grid-cols-2 gap-4 text-center">
-                  <div>
-                    <p className="text-2xl font-bold text-secondary">10+</p>
-                    <p className="text-sm text-gray-500">веников</p>
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-secondary">10%</p>
-                    <p className="text-sm text-gray-500">скидка</p>
-                  </div>
-                </div>
-              </div>
-              
-              <Button 
-                variant="outline"
-                className="w-full py-4 text-lg rounded-full border-secondary text-secondary hover:bg-secondary hover:text-white shadow-lg hover:shadow-xl transition-all duration-200"
-                onClick={() => navigate('/catalog')}
-              >
-                <Icon name="Calculator" size={20} className="mr-2" />
-                Рассчитать выгоду
-              </Button>
             </CardContent>
           </Card>
         </div>
         
-        {/* Additional Offers */}
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-            Дополнительные предложения
+        {/* Дополнительные предложения - минималистично */}
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-center text-gray-800 mb-8">
+            Дополнительные бонусы
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm hover:shadow-xl transition-shadow duration-200">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Icon name="Truck" size={28} className="text-primary" />
-                </div>
-                <h3 className="font-semibold text-xl mb-3">Бесплатная доставка</h3>
-                <p className="text-gray-600 mb-4">
-                  При заказе от 3000 рублей доставляем бесплатно по Москве и области
-                </p>
-                <Badge variant="secondary">От 3000 ₽</Badge>
-              </CardContent>
-            </Card>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+              <Icon name="Truck" size={32} className="text-blue-500 mx-auto mb-2" />
+              <h4 className="font-medium mb-1">Бесплатная доставка</h4>
+              <p className="text-sm text-gray-500">от 3000 ₽</p>
+            </div>
             
-            <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm hover:shadow-xl transition-shadow duration-200">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Icon name="Gift" size={28} className="text-primary" />
-                </div>
-                <h3 className="font-semibold text-xl mb-3">Подарок за отзыв</h3>
-                <p className="text-gray-600 mb-4">
-                  Оставьте честный отзыв с фото и получите скидку 5% на следующий заказ
-                </p>
-                <Badge variant="secondary">5% скидка</Badge>
-              </CardContent>
-            </Card>
+            <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+              <Icon name="Gift" size={32} className="text-green-500 mx-auto mb-2" />
+              <h4 className="font-medium mb-1">Подарок за отзыв</h4>
+              <p className="text-sm text-gray-500">5% скидка</p>
+            </div>
             
-            <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm hover:shadow-xl transition-shadow duration-200">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Icon name="Users" size={28} className="text-primary" />
-                </div>
-                <h3 className="font-semibold text-xl mb-3">Приведи друга</h3>
-                <p className="text-gray-600 mb-4">
-                  Пригласи друга и получите оба скидку 10% на следующую покупку
-                </p>
-                <Badge variant="secondary">10% каждому</Badge>
-              </CardContent>
-            </Card>
+            <div className="text-center p-4 bg-white rounded-lg shadow-sm">
+              <Icon name="Users" size={32} className="text-purple-500 mx-auto mb-2" />
+              <h4 className="font-medium mb-1">Приведи друга</h4>
+              <p className="text-sm text-gray-500">10% каждому</p>
+            </div>
           </div>
         </div>
         

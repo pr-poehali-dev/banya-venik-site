@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -23,13 +23,28 @@ interface CartItem extends Product {
 interface LayoutProps {
   cart: CartItem[];
   onRemoveFromCart: (productId: number) => void;
+  onUpdateCartItemQuantity: (productId: number, newQuantity: number) => void;
   notification: {message: string, type: 'success' | 'info'} | null;
 }
 
-const Layout = ({ cart, onRemoveFromCart, notification }: LayoutProps) => {
+const Layout = ({ cart, onRemoveFromCart, onUpdateCartItemQuantity, notification }: LayoutProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const getTotalPrice = () => {
     return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
@@ -182,9 +197,31 @@ const Layout = ({ cart, onRemoveFromCart, notification }: LayoutProps) => {
                         <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-lg" />
                         <div className="flex-1">
                           <h4 className="font-semibold text-gray-800">{item.name}</h4>
-                          <p className="text-sm text-gray-500">{item.price} ₽ × {item.quantity}</p>
+                          <p className="text-sm text-gray-500">{item.price} ₽ каждый</p>
+                          <div className="flex items-center space-x-2 mt-2">
+                            <Button 
+                              variant="outline" 
+                              size="icon" 
+                              onClick={() => onUpdateCartItemQuantity(item.id, item.quantity - 1)}
+                              className="h-8 w-8 rounded-full"
+                              disabled={item.quantity <= 1}
+                            >
+                              <Icon name="Minus" size={14} />
+                            </Button>
+                            <span className="font-medium px-3 py-1 bg-gray-50 rounded-full min-w-[40px] text-center">
+                              {item.quantity}
+                            </span>
+                            <Button 
+                              variant="outline" 
+                              size="icon" 
+                              onClick={() => onUpdateCartItemQuantity(item.id, item.quantity + 1)}
+                              className="h-8 w-8 rounded-full"
+                            >
+                              <Icon name="Plus" size={14} />
+                            </Button>
+                          </div>
                         </div>
-                        <div className="flex items-center space-x-2">
+                        <div className="flex flex-col items-end space-y-2">
                           <span className="text-lg font-semibold text-primary">
                             {(item.price * item.quantity).toLocaleString()} ₽
                           </span>
@@ -194,7 +231,7 @@ const Layout = ({ cart, onRemoveFromCart, notification }: LayoutProps) => {
                             onClick={() => onRemoveFromCart(item.id)}
                             className="h-8 w-8 rounded-full hover:bg-red-50 hover:text-red-600"
                           >
-                            <Icon name="X" size={16} />
+                            <Icon name="Trash2" size={14} />
                           </Button>
                         </div>
                       </div>
@@ -238,7 +275,10 @@ const Layout = ({ cart, onRemoveFromCart, notification }: LayoutProps) => {
                         <Icon name="ShoppingCart" size={64} className="mx-auto text-gray-300 mb-4" />
                         <p className="text-gray-500 text-lg mb-6">Корзина пуста</p>
                         <Button 
-                          onClick={() => navigate('/catalog')}
+                          onClick={() => {
+                            navigate('/catalog');
+                            window.location.reload();
+                          }}
                           className="rounded-full font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
                         >
                           Перейти в каталог
@@ -321,36 +361,51 @@ const Layout = ({ cart, onRemoveFromCart, notification }: LayoutProps) => {
         <Outlet />
       </main>
 
+      {/* Scroll to Top Button */}
+      {showScrollTop && (
+        <Button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full shadow-2xl bg-gradient-to-r from-primary to-secondary hover:scale-110 transition-all duration-200 md:hidden"
+          size="icon"
+        >
+          <Icon name="ArrowUp" size={20} className="text-white" />
+        </Button>
+      )}
+
       {/* Footer */}
       <footer className="bg-gray-900/95 backdrop-blur-sm text-white py-12 px-4 border-t border-gray-700">
-        <div className="container mx-auto text-center">
-          <Link to="/" className="flex items-center justify-center space-x-3 mb-6">
-            <div className="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center shadow-lg">
-              <Icon name="TreePine" size={24} className="text-white" />
+        <div className="container mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-start">
+            {/* Логотип слева */}
+            <div className="mb-8 md:mb-0">
+              <Link to="/" className="flex items-center space-x-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center shadow-lg">
+                  <Icon name="TreePine" size={24} className="text-white" />
+                </div>
+                <h3 className="text-2xl font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                  Banhouse
+                </h3>
+              </Link>
+              <p className="text-gray-300 max-w-sm text-left">
+                Лучшие банные веники для вашего здоровья и удовольствия.
+              </p>
             </div>
-            <h3 className="text-2xl font-bold" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-              Banhouse
-            </h3>
-          </Link>
-          <p className="text-gray-300 mb-8 max-w-md mx-auto">
-            Лучшие банные веники для вашего здоровья и удовольствия. 
-            Традиции качества с 2009 года.
-          </p>
-          <div className="flex justify-center space-x-6 mb-8">
-            <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white rounded-full">
-              <Icon name="MessageCircle" size={20} />
-            </Button>
-            <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white rounded-full">
-              <Icon name="Instagram" size={20} />
-            </Button>
-            <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white rounded-full">
-              <Icon name="MessageSquare" size={20} />
-            </Button>
-            <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white rounded-full">
-              <Icon name="Phone" size={20} />
-            </Button>
+            
+            {/* Соцсети справа */}
+            <div className="flex space-x-4">
+              <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white rounded-full hover:bg-blue-600 transition-colors">
+                <Icon name="MessageCircle" size={20} />
+              </Button>
+              <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white rounded-full hover:bg-green-600 transition-colors">
+                <Icon name="MessageSquare" size={20} />
+              </Button>
+              <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white rounded-full hover:bg-blue-500 transition-colors">
+                <Icon name="Phone" size={20} />
+              </Button>
+            </div>
           </div>
-          <div className="border-t border-gray-700 pt-6">
+          
+          <div className="border-t border-gray-700 pt-6 mt-8 text-center">
             <p className="text-gray-400 text-sm">
               &copy; 2024 Banhouse. Все права защищены.
             </p>

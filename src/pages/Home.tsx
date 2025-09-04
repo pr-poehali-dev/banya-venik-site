@@ -10,16 +10,23 @@ const Home = () => {
     <div>
       {/* Hero Section */}
       <section className="py-24 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5"></div>
+        <div className="absolute inset-0">
+          <img 
+            src="https://cdn.poehali.dev/files/1e1b8555-91f3-4d58-9e5a-8d5162bbdc41.jpg" 
+            alt="Банные принадлежности" 
+            className="w-full h-full object-cover opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10"></div>
+        </div>
         <div className="container mx-auto text-center relative z-10">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-6xl md:text-7xl font-bold text-gray-800 mb-8" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-800 mb-8" style={{ fontFamily: 'Montserrat, sans-serif' }}>
               Лучшие веники
               <span className="block bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 для бани
               </span>
             </h1>
-            <p className="text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
               Натуральные веники высшего качества для незабываемых банных процедур. 
               Собраны в экологически чистых районах с соблюдением традиций.
             </p>
@@ -49,7 +56,7 @@ const Home = () => {
       {/* Features */}
       <section className="py-20 px-4 bg-white/50 backdrop-blur-sm">
         <div className="container mx-auto">
-          <h2 className="text-5xl font-bold text-center text-gray-800 mb-16" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16" style={{ fontFamily: 'Montserrat, sans-serif' }}>
             Почему выбирают нас
           </h2>
           
@@ -99,7 +106,7 @@ const Home = () => {
       {/* Categories Preview */}
       <section className="py-20 px-4">
         <div className="container mx-auto">
-          <h2 className="text-5xl font-bold text-center text-gray-800 mb-16" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-gray-800 mb-16" style={{ fontFamily: 'Montserrat, sans-serif' }}>
             Популярные категории
           </h2>
           
@@ -150,7 +157,7 @@ const Home = () => {
           <div className="max-w-4xl mx-auto text-center">
             <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-12 border border-primary/20">
               <Icon name="TreePine" size={80} className="mx-auto mb-8 text-primary" />
-              <h2 className="text-5xl font-bold text-gray-800 mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-6" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                 Готовы к незабываемым
                 <span className="block text-primary">банным процедурам?</span>
               </h2>
