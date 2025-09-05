@@ -1,64 +1,129 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
+import './Contact.css';
 
 const Contact = () => {
   return (
-    <div className="py-16 px-4 min-h-screen bg-gradient-to-br from-green-50 to-orange-50">
-      <div className="container mx-auto">
-        <h1 className="text-5xl font-bold text-center text-gray-800 mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-          Контакты
-        </h1>
-        <p className="text-xl text-center text-gray-600 mb-16 max-w-2xl mx-auto">
-          Свяжитесь с нами удобным способом. Мы всегда готовы помочь с выбором веников!
-        </p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-16">
-          {/* Телефон */}
-          <Card className="shadow-lg border-0 bg-white hover:shadow-xl transition-shadow duration-200 text-center">
-            <CardContent className="p-8">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Icon name="Phone" size={32} className="text-blue-600" />
-              </div>
-              <h3 className="font-semibold text-xl mb-3">Телефон</h3>
-              <p className="text-lg text-blue-600 font-medium mb-2">+7 (900) 123-45-67</p>
-              <p className="text-sm text-gray-500">Ежедневно 9:00-21:00</p>
-            </CardContent>
-          </Card>
-          
-          {/* Почта */}
-          <Card className="shadow-lg border-0 bg-white hover:shadow-xl transition-shadow duration-200 text-center">
-            <CardContent className="p-8">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Icon name="Mail" size={32} className="text-green-600" />
-              </div>
-              <h3 className="font-semibold text-xl mb-3">Email</h3>
-              <p className="text-lg text-green-600 font-medium mb-2">info@banhouse.ru</p>
-              <p className="text-sm text-gray-500">Ответим в течение часа</p>
-            </CardContent>
-          </Card>
-          
-          {/* Соцсети */}
-          <Card className="shadow-lg border-0 bg-white hover:shadow-xl transition-shadow duration-200 text-center">
-            <CardContent className="p-8">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Icon name="MessageCircle" size={32} className="text-purple-600" />
-              </div>
-              <h3 className="font-semibold text-xl mb-4">Соцсети</h3>
-              <div className="flex justify-center space-x-4">
-                <Button size="sm" variant="outline" className="rounded-full">
-                  <Icon name="MessageCircle" size={16} />
-                </Button>
-                <Button size="sm" variant="outline" className="rounded-full">
-                  <Icon name="MessageSquare" size={16} />
-                </Button>
-              </div>
-              <p className="text-sm text-gray-500 mt-3">Telegram и WhatsApp</p>
-            </CardContent>
-          </Card>
+    <div className="contact-page">
+      {/* Заголовок страницы контактов */}
+      <section className="contact-header">
+        <div className="container">
+          <h1 className="contact-title">Контакты</h1>
+          <p className="contact-subtitle">
+            Свяжитесь с нами удобным способом. Мы всегда готовы помочь с выбором веников!
+          </p>
         </div>
-        
+      </section>
 
+      {/* Основной контент */}
+      <div className="contact-content">
+        <div className="container">
+          {/* Карточки контактов */}
+          <div className="contact-grid">
+            {/* Телефон */}
+            <div className="contact-card">
+              <div className="contact-icon phone">
+                <Icon name="Phone" size={32} />
+              </div>
+              <h3 className="contact-title-item">Телефон</h3>
+              <div className="contact-info">
+                <div className="contact-value">+7 (900) 123-45-67</div>
+                <p style={{ fontSize: '0.9rem', color: '#6b7280', marginTop: '0.5rem' }}>
+                  Ежедневно 9:00-21:00
+                </p>
+              </div>
+              <a 
+                href="tel:+79001234567" 
+                className="contact-link"
+              >
+                Позвонить
+              </a>
+            </div>
+            
+            {/* Почта */}
+            <div className="contact-card">
+              <div className="contact-icon email">
+                <Icon name="Mail" size={32} />
+              </div>
+              <h3 className="contact-title-item">Email</h3>
+              <div className="contact-info">
+                <div className="contact-value">info@banhouse.ru</div>
+                <p style={{ fontSize: '0.9rem', color: '#6b7280', marginTop: '0.5rem' }}>
+                  Ответим в течение часа
+                </p>
+              </div>
+              <a 
+                href="mailto:info@banhouse.ru" 
+                className="contact-link"
+              >
+                Написать письмо
+              </a>
+            </div>
+            
+            {/* Соцсети */}
+            <div className="contact-card">
+              <div className="contact-icon social">
+                <Icon name="MessageCircle" size={32} />
+              </div>
+              <h3 className="contact-title-item">Соцсети</h3>
+              <div className="contact-info">
+                Быстрая связь через мессенджеры
+              </div>
+              <div className="social-links">
+                <a 
+                  href="https://t.me/banhouse" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="social-link telegram"
+                  title="Telegram"
+                >
+                  <Icon name="MessageCircle" size={20} />
+                </a>
+                <a 
+                  href="https://wa.me/79001234567" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="social-link whatsapp"
+                  title="WhatsApp"
+                >
+                  <Icon name="MessageSquare" size={20} />
+                </a>
+                <a 
+                  href="https://vk.com/banhouse" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="social-link vk"
+                  title="ВКонтакте"
+                >
+                  <Icon name="Users" size={20} />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Дополнительная информация */}
+          <div className="additional-info">
+            <h3>Режим работы</h3>
+            <p>
+              Наш интернет-магазин работает <span className="highlight">круглосуточно</span>, 
+              принимаем заказы 24/7. Консультации по телефону и в мессенджерах 
+              доступны <span className="highlight">ежедневно с 9:00 до 21:00</span>.
+            </p>
+            
+            <div className="working-hours">
+              <h4>График консультаций</h4>
+              <div className="hours-list">
+                <span className="day">Понедельник - Воскресенье</span>
+                <span className="time">9:00 - 21:00</span>
+              </div>
+            </div>
+            
+            <p>
+              <span className="highlight">Бесплатная доставка</span> по всей России 
+              при заказе от 3000 рублей. Работаем с транспортными компаниями 
+              СДЭК, Почта России, BoxBerry.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

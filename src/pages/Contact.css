@@ -1,0 +1,281 @@
+/* Контакты - фон с множеством висящих веников */
+.contact-page {
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+    url("https://cdn.poehali.dev/files/dafa4577-f9bd-4028-9ba0-f21fa7f0a53d.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Заголовок страницы контактов */
+.contact-header {
+  padding: 120px 1rem 60px;
+  text-align: center;
+  color: white;
+}
+
+.contact-title {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-family: "Montserrat", sans-serif;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.contact-subtitle {
+  font-size: clamp(1rem, 4vw, 1.25rem);
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  opacity: 0.9;
+}
+
+/* Основной контент */
+.contact-content {
+  padding: 3rem 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  margin: 2rem;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+  max-width: 60rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+/* Сетка контактов */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Карточка контакта */
+.contact-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.contact-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  border-color: rgba(5, 150, 105, 0.2);
+}
+
+/* Иконка контакта */
+.contact-icon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.contact-card:hover .contact-icon {
+  transform: scale(1.1);
+}
+
+.contact-icon.phone {
+  background: linear-gradient(45deg, #059669, #10b981);
+}
+
+.contact-icon.email {
+  background: linear-gradient(45deg, #3b82f6, #60a5fa);
+}
+
+.contact-icon.social {
+  background: linear-gradient(45deg, #8b5cf6, #a78bfa);
+}
+
+/* Информация контакта */
+.contact-title-item {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.contact-info {
+  color: #374151;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.contact-value {
+  font-weight: 600;
+  color: #059669;
+  font-size: 1.1rem;
+}
+
+/* Ссылки контактов */
+.contact-link {
+  display: inline-block;
+  background: linear-gradient(45deg, #059669, #10b981);
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);
+}
+
+.contact-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(5, 150, 105, 0.3);
+}
+
+/* Социальные сети */
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.social-link {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 1.25rem;
+}
+
+.social-link.telegram {
+  background: linear-gradient(45deg, #0088cc, #00a0dc);
+}
+
+.social-link.whatsapp {
+  background: linear-gradient(45deg, #25d366, #128c7e);
+}
+
+.social-link.vk {
+  background: linear-gradient(45deg, #4680c2, #5a9bd4);
+}
+
+.social-link:hover {
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Дополнительная информация */
+.additional-info {
+  background: rgba(5, 150, 105, 0.05);
+  border: 1px solid rgba(5, 150, 105, 0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.additional-info h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #047857;
+  margin-bottom: 1rem;
+}
+
+.additional-info p {
+  color: #374151;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.additional-info .highlight {
+  color: #047857;
+  font-weight: 600;
+}
+
+/* Рабочие часы */
+.working-hours {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.working-hours h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.hours-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.hours-list .day {
+  font-weight: 500;
+}
+
+.hours-list .time {
+  color: #059669;
+  font-weight: 600;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .contact-header {
+    padding: 80px 1rem 40px;
+  }
+
+  .contact-content {
+    margin: 1rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .social-links {
+    flex-wrap: wrap;
+  }
+
+  .hours-list {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-card {
+    padding: 1.5rem;
+  }
+
+  .additional-info {
+    padding: 1.5rem;
+  }
+}

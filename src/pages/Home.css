@@ -1,0 +1,348 @@
+/* Главная страница - фон с банными принадлежностями */
+.home-page {
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("https://cdn.poehali.dev/files/5e94dd21-8f1a-4eb2-974d-c28da4ad33f8.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Hero секция */
+.hero-section {
+  padding: 120px 1rem 80px;
+  text-align: center;
+  color: white;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: bold;
+  margin-bottom: 2rem;
+  font-family: "Montserrat", sans-serif;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.hero-subtitle {
+  font-size: clamp(1.125rem, 4vw, 1.5rem);
+  margin-bottom: 3rem;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.hero-button {
+  display: inline-block;
+  background: #059669;
+  color: white;
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
+}
+
+.hero-button:hover {
+  background: #047857;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(5, 150, 105, 0.4);
+}
+
+/* Общие секции */
+.section {
+  padding: 5rem 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  margin: 2rem 0;
+}
+
+.section-dark {
+  padding: 5rem 1rem;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  margin: 2rem 0;
+}
+
+.container {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 4rem;
+  font-family: "Montserrat", sans-serif;
+}
+
+/* Сетка карточек */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 2rem;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.feature-icon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1.5rem;
+  background: #059669;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.feature-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.feature-description {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* Категории */
+.category-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.category-image {
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+}
+
+.category-content {
+  padding: 1.5rem;
+}
+
+.category-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #1f2937;
+}
+
+.category-description {
+  color: #6b7280;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.category-link {
+  color: #059669;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.category-link:hover {
+  color: #047857;
+}
+
+/* CTA секция */
+.cta-section {
+  text-align: center;
+  padding: 6rem 1rem;
+}
+
+.cta-title {
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  font-family: "Montserrat", sans-serif;
+}
+
+.cta-description {
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* Дополнительные кнопки */
+.hero-button-outline {
+  display: inline-block;
+  background: transparent;
+  color: white;
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid white;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.hero-button-outline:hover {
+  background: white;
+  color: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Категории альтернативные */
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1.5rem;
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.category-card-alt {
+  border-radius: 1rem;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.category-card-alt:hover {
+  transform: scale(1.05);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.category-card-alt.green {
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.1),
+    rgba(16, 185, 129, 0.05)
+  );
+}
+
+.category-card-alt.amber {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.1),
+    rgba(245, 158, 11, 0.05)
+  );
+}
+
+.category-card-alt.emerald {
+  background: linear-gradient(
+    135deg,
+    rgba(5, 150, 105, 0.1),
+    rgba(5, 150, 105, 0.05)
+  );
+}
+
+.category-card-alt.purple {
+  background: linear-gradient(
+    135deg,
+    rgba(147, 51, 234, 0.1),
+    rgba(147, 51, 234, 0.05)
+  );
+}
+
+.category-content-alt {
+  color: white;
+}
+
+.category-icon {
+  margin: 0 auto 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.category-card-alt:hover .category-icon {
+  transform: scale(1.1);
+}
+
+.category-title-alt {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.category-description-alt {
+  opacity: 0.9;
+}
+
+/* CTA карточка */
+.cta-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  padding: 3rem;
+  border: 1px solid rgba(5, 150, 105, 0.2);
+  text-align: center;
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 80px 1rem 60px;
+  }
+
+  .section,
+  .section-dark {
+    padding: 3rem 1rem;
+    margin: 1rem 0;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cta-card {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
+}
